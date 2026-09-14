@@ -29,6 +29,10 @@ if exist "%ROOT%\build" rmdir /s /q "%ROOT%\build"
 if exist "%ROOT%\dist" rmdir /s /q "%ROOT%\dist"
 "%BUILD_PY%" -m PyInstaller --noconfirm --clean "%ROOT%\packaging\windows\PM_Assistant.spec"
 if errorlevel 1 goto :fail
+if exist "%ROOT%\dist\PM Assistant\_internal\samples" (
+  echo ERROR: private sample data was bundled into the desktop package.
+  goto :fail
+)
 
 if exist "%OUT_DIR%" rmdir /s /q "%OUT_DIR%"
 mkdir "%OUT_DIR%"

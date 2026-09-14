@@ -29,6 +29,10 @@ if exist "%ROOT%\build" rmdir /s /q "%ROOT%\build"
 if exist "%ROOT%\dist" rmdir /s /q "%ROOT%\dist"
 "%BUILD_PY%" -m PyInstaller --noconfirm --clean "%ROOT%\packaging\windows\PM_Assistant_Remote_Server.spec"
 if errorlevel 1 goto :fail
+if exist "%ROOT%\dist\PM Assistant Remote Server\_internal\samples" (
+  echo ERROR: private sample data was bundled into the remote server package.
+  goto :fail
+)
 "%BUILD_PY%" -m PyInstaller --noconfirm --clean "%ROOT%\packaging\windows\PM_Assistant_Remote_Client.spec"
 if errorlevel 1 goto :fail
 

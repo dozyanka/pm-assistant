@@ -5,7 +5,6 @@ ROOT = Path.cwd()
 
 datas = [
     (str(ROOT / "pm_app" / "static"), "pm_app/static"),
-    (str(ROOT / "samples"), "samples"),
     (str(ROOT / "examples"), "examples"),
 ]
 
