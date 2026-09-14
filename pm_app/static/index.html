@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>PM Assistant</title>
+  <link rel="stylesheet" href="/css/00-base.css">
+  <link rel="stylesheet" href="/css/01-diagnostics.css">
+  <link rel="stylesheet" href="/css/02-registry.css">
+  <link rel="stylesheet" href="/css/03-workspace.css">
+  <link rel="stylesheet" href="/css/04-tasks.css">
+  <link rel="stylesheet" href="/css/05-participants.css">
+  <script src="/js/00-core.js" defer></script>
+  <script src="/js/01-questions.js" defer></script>
+  <script src="/js/02-messages.js" defer></script>
+  <script src="/js/03-registry.js" defer></script>
+  <script src="/js/04-tasks.js" defer></script>
+  <script src="/js/05-post-meeting.js" defer></script>
+  <script src="/js/06-participants.js" defer></script>
+  <script src="/js/07-sources-and-qa.js" defer></script>
+  <script src="/js/08-account-and-import.js" defer></script>
+  <script src="/js/09-bootstrap.js" defer></script>
+</head>
+<body>
+<section id="auth-screen" class="auth-screen hidden">
+  <div class="auth-card">
+    <div class="auth-brand auth-brand-text-only"><strong>PM Assistant</strong></div>
+    <div id="setup-box" class="hidden">
+      <div class="eyebrow">ПЕРВЫЙ ЗАПУСК</div>
+      <h1>Создайте администратора</h1>
+      <form id="setup-form" class="auth-form">
+        <label>Имя<input id="setup-name" required maxlength="100" autocomplete="name" placeholder="Владимир"></label>
+        <label>Логин<input id="setup-user" required maxlength="64" autocomplete="username" placeholder="vladimir"></label>
+        <label>Пароль<input id="setup-password" required minlength="8" maxlength="200" type="password" autocomplete="new-password"></label>
+        <button class="btn primary full" type="submit">Создать аккаунт</button>
+      </form>
+    </div>
+    <div id="login-box" class="hidden">
+      <div class="eyebrow">ВХОД</div>
+      <h1>Добро пожаловать</h1>
+      <form id="login-form" class="auth-form">
+        <label>Логин<input id="login-user" required maxlength="64" autocomplete="username"></label>
+        <label>Пароль<input id="login-password" required maxlength="200" type="password" autocomplete="current-password"></label>
+        <button class="btn primary full" type="submit">Войти</button>
+      </form>
+    </div>
+    <p id="auth-error" class="auth-error hidden"></p>
+  </div>
+</section>
+
+<div id="app-shell" class="layout hidden">
+  <aside class="sidebar">
+    <div class="brand brand-text-only"><div>PM Assistant</div></div>
+    <div class="side-switch" role="tablist">
+      <button id="side-projects" class="side-tab active" type="button">Проекты <span id="project-count">0</span></button>
+      <button id="side-imports" class="side-tab" type="button">Наборы <span id="import-count">0</span></button>
+    </div>
+    <div id="project-side">
+      <nav id="projects" aria-label="Выбор проекта"></nav>
+      <button class="btn ghost full" id="new-project-toggle">＋ Новый проект</button>
+      <form id="project-form" class="mini-form hidden">
+        <label>Название<input id="project-name" required maxlength="120" placeholder="Название проекта"></label>
+        <button class="btn secondary full" type="submit">Создать проект</button>
+      </form>
+      <button class="btn secondary full side-import-button" id="global-import" type="button">⇧ Импортировать материалы</button>
+      <input type="file" id="global-import-file" accept=".jsonl,.ndjson,.json,.txt,.md,.csv,.docx" class="hidden">
+    </div>
+    <div id="import-side" class="hidden"><div id="import-batches"></div></div>
+    <div class="side-bottom"><div class="version-label">PM Assistant · v<span id="app-version">1.0.0</span></div></div>
+  </aside>
+
+  <main>
+    <header class="topbar">
+      <div></div>
+      <div class="account-wrap">
+        <button id="account-button" class="account-button" type="button" aria-label="Аккаунт"><span class="account-avatar" aria-hidden="true"></span></button>
+        <div id="account-menu" class="account-menu hidden">
+          <div class="account-summary"><strong id="account-name"></strong><span id="account-role"></span></div>
+          <button id="account-users" class="menu-item hidden" type="button">Пользователи</button>
+          <button id="account-logout" class="menu-item danger-text" type="button">Выйти</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="workspace">
+      <section id="welcome" class="welcome">
+        <div class="eyebrow">PM ASSISTANT</div>
+        <h1>Проектный контекст<br>в одном месте.</h1>
+        <p>Создайте проект или импортируйте переписку, письма, транскрипты и документы. Источники, версии и подтверждения сохраняются отдельно.</p>
+        <div class="intro-grid">
+          <article><span>01</span><h3>Соберите источники</h3><p>JSONL, текст, CSV и DOCX. Большая синтетическая база распознаётся как набор отдельных проектов.</p></article>
+          <article><span>02</span><h3>Проверяйте контекст</h3><p>Ответы и поиск работают только по выбранному проекту и показывают исходные сообщения.</p></article>
+          <article><span>03</span><h3>Ведите реестр</h3><p>Задачи, решения, обещания и вопросы остаются связаны с основаниями и историей изменений.</p></article>
+        </div>
+      </section>
+
+      <section id="project-view" class="hidden">
+        <div class="project-header">
+          <div><div class="eyebrow">ПРОЕКТ</div><h1 id="project-title"></h1><p id="project-meta"></p></div>
+          <div class="project-tools">
+            <button class="btn secondary" id="import-toggle" type="button">Добавить материалы</button>
+            <div class="project-menu-wrap">
+              <button class="icon-button" id="project-menu-toggle" type="button" aria-label="Действия с проектом">•••</button>
+              <div id="project-menu" class="project-menu hidden">
+                <button id="rename-project" class="menu-item" type="button">Переименовать</button>
+                <button id="delete-project" class="menu-item danger-text" type="button">Удалить проект</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <section class="panel hidden" id="import-panel">
+          <h2>Добавить или обновить материалы</h2>
+          <div class="import-grid">
+            <div><label class="file-label">Файл<input type="file" id="import-file" accept=".jsonl,.ndjson,.json,.txt,.md,.csv,.docx"></label><button class="btn primary" id="import-run" type="button">Проверить и импортировать</button></div>
+            <div><label>Или вставьте текст<textarea id="paste-text" rows="5" maxlength="120000" placeholder="Вставьте сообщения, заметки или транскрипт"></textarea></label><button class="btn secondary" id="paste-run" type="button">Добавить текст</button></div>
+          </div>
+        </section>
+
+        <div class="scope-bar hidden" id="topic-bar"><label for="topic-filter">Исходный проект</label><select id="topic-filter"><option value="">Все темы отдельно</option></select></div>
+        <div class="scope-bar"><label for="source-filter">Область ответа</label><select id="source-filter"><option value="">Все источники проекта</option></select></div>
+        <div class="tabs" role="tablist">
+          <button id="tab-answer" class="tab active" role="tab" aria-selected="true">Вопросы</button>
+          <button id="tab-registry" class="tab" role="tab" aria-selected="false">Реестр</button>
+          <button id="tab-tasks" class="tab" role="tab" aria-selected="false">Таск-трекер</button>
+          <button id="tab-postmeeting" class="tab" role="tab" aria-selected="false">Post-meeting</button>
+          <button id="tab-sources" class="tab" role="tab" aria-selected="false">Источники</button>
+          <button id="tab-history" class="tab" role="tab" aria-selected="false">История ответов</button>
+        </div>
+        <section id="answer-view">
+          <div class="panel question-panel">
+            <label class="question-label" for="question">Что нужно узнать о проекте?</label>
+            <textarea id="question" maxlength="1200" rows="3" placeholder="Например: что согласовано по доставке и что ещё требует уточнения?"></textarea>
+            <div class="question-actions"><div class="main-actions"><button class="btn primary" id="ask">Спросить</button><button class="btn secondary" id="summary">Краткая сводка</button></div><button class="btn ghost" id="search">Найти сообщения</button></div>
+          </div>
+          <div id="answer-output" aria-live="polite"></div><div id="search-output"></div>
+        </section>
+        <section id="registry-view" class="hidden">
+          <div class="panel registry-toolbar"><div><div class="eyebrow">РЕЕСТР</div><h2>Задачи и договорённости</h2></div><button class="btn primary" id="registry-sync">Обновить из сообщений</button></div>
+          <div class="registry-controls"><div id="registry-meta" class="registry-meta"></div><label>Проверка <select id="registry-review-filter"><option value="">Все</option><option value="candidate">Нужно проверить</option><option value="confirmed">Подтверждено</option><option value="edited">Исправлено менеджером</option><option value="excluded">Исключено</option></select></label><label>Тип <select id="registry-kind-filter"><option value="">Все</option><option value="TASK">Задача</option><option value="DECISION">Решение</option><option value="PROMISE">Обещание</option><option value="REQUIREMENT">Требование</option><option value="OPEN_QUESTION">Открытый вопрос</option><option value="DEPENDENCY">Зависимость</option></select></label></div>
+          <div id="registry-list"></div>
+        </section>
+        <section id="tasks-view" class="hidden">
+          <div class="panel task-toolbar"><div><div class="eyebrow">ТАСК-ТРЕКЕР</div><h2>Работа по проекту</h2></div><button class="btn primary" id="tasks-sync" type="button">Обновить из сообщений</button></div>
+          <div id="task-summary" class="task-summary"></div>
+          <div id="kanban" class="kanban-board" aria-label="Канбан проекта"></div>
+        </section>
+        <section id="postmeeting-view" class="hidden">
+          <div class="panel postmeeting-toolbar">
+            <div><div class="eyebrow">POST-MEETING</div><h2>Короткие итоги встречи</h2></div>
+            <div class="meeting-actions"><label for="meeting-filter">Встреча<select id="meeting-filter"><option value="">Выберите встречу</option></select></label><button class="btn primary" id="postmeeting-generate" type="button">Сформировать</button></div>
+          </div>
+          <div id="postmeeting-output" aria-live="polite"></div>
+        </section>
+        <section id="sources-view" class="hidden">
+          <div class="panel participants-panel">
+            <div class="participants-head"><div><div class="eyebrow">УЧАСТНИКИ</div><h2>Роли в проекте</h2></div><button class="btn secondary" id="participants-infer" type="button">Определить роли по контексту</button></div>
+            <div id="participants-summary" class="participants-summary"></div>
+            <div id="participants-list" class="participants-list"></div>
+          </div>
+          <div id="messages"></div>
+        </section>
+        <section id="history-view" class="hidden"><div id="history"></div></section>
+      </section>
+      <div id="notification" role="status" class="hidden"></div>
+    </div>
+    <div id="progress" class="progress hidden" role="status"><span class="spinner"></span><div><strong id="progress-title">Обработка</strong></div></div>
+  </main>
+</div>
+
+<div id="modal-backdrop" class="modal-backdrop hidden">
+  <section id="confirm-modal" class="modal hidden"><h2 id="confirm-title"></h2><p id="confirm-text"></p><div class="modal-actions"><button id="confirm-cancel" class="btn ghost">Отмена</button><button id="confirm-ok" class="btn danger">Подтвердить</button></div></section>
+  <section id="import-modal" class="modal hidden"><h2>Проверка импорта</h2><div id="import-preview"></div><div class="modal-actions"><button id="import-cancel" class="btn ghost">Отмена</button><button id="import-apply" class="btn primary">Применить</button></div></section>
+  <section id="users-modal" class="modal modal-wide hidden"><div class="modal-head"><h2>Пользователи</h2><button id="users-close" class="icon-button">×</button></div><div id="users-list"></div><form id="user-form" class="user-form"><h3>Добавить пользователя</h3><input id="user-name" required maxlength="100" placeholder="Имя"><input id="user-login" required maxlength="64" placeholder="Логин"><input id="user-password" required minlength="8" maxlength="200" type="password" placeholder="Пароль"><select id="user-role"><option value="pm">PM</option><option value="admin">Администратор</option></select><button class="btn secondary" type="submit">Добавить</button></form></section>
+</div>
+</body>
+</html>

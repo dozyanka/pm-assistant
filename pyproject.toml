@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pm-assistant"
+version = "1.0.0"
+description = "Self-hosted AI project-memory assistant for project managers"
+readme = "README.md"
+requires-python = ">=3.13"
+license = { file = "LICENSE" }
+authors = [{ name = "DVSh (Dozya)" }]
+keywords = ["llm", "ollama", "qwen", "rag", "project-management", "sqlite", "self-hosted"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3.13",
+  "Operating System :: Microsoft :: Windows",
+]
+
+[tool.setuptools]
+packages = ["pm_app", "pm_app.services"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+pm_app = ["static/**/*"]

@@ -1,0 +1,226 @@
+/* Project registry: source-derived candidates + explicit manager review. */
+.registry-toolbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 28px;
+}
+
+.registry-toolbar>div {
+  max-width: 760px;
+}
+
+.registry-controls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin: 0 0 16px;
+}
+
+.registry-controls label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.registry-controls select {
+  font-size: 11px;
+  min-width: 150px;
+}
+
+.registry-meta {
+  flex: 1;
+  min-width: 280px;
+  color: #bac9c4;
+  font-size: 12px;
+}
+
+.registry-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 12px;
+}
+
+.registry-card.excluded {
+  opacity: .58;
+}
+
+.registry-card.stale {
+  border-style: dashed;
+}
+
+.registry-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.registry-badges {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.registry-badge {
+  display: inline-block;
+  padding: 4px 7px;
+  border-radius: 5px;
+  font-size: 10px;
+  background: #263038;
+  color: #c8d0da;
+}
+
+.registry-badge.kind {
+  background: #283c37;
+  color: #c5e5d8;
+}
+
+.registry-badge.lifecycle {
+  background: #293343;
+  color: #cbd6e9;
+}
+
+.registry-badge.review {
+  background: #3a3327;
+  color: #e6cfaa;
+}
+
+.registry-badge.stale {
+  background: #44302c;
+  color: #e3b5aa;
+}
+
+.registry-id {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.registry-card h3 {
+  margin: 13px 0 7px;
+  font-size: 16px;
+}
+
+.registry-statement {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  margin: 0 0 14px;
+  line-height: 1.55;
+}
+
+.registry-fields {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.registry-fields>div {
+  background: #121820;
+  border-radius: 7px;
+  padding: 10px 12px;
+  color: var(--muted);
+  white-space: pre-line;
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.registry-evidence {
+  margin: 14px 0;
+}
+
+.registry-evidence>summary,.registry-history>summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-size: 12px;
+}
+
+.registry-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.registry-actions .btn {
+  font-size: 11px;
+  padding: 7px 10px;
+}
+
+.registry-edit {
+  margin-top: 18px;
+  padding: 16px;
+  background: #121820;
+  border: 1px solid #303b47;
+  border-radius: 9px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.registry-edit label {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.registry-edit input,.registry-edit textarea,.registry-edit select {
+  display: block;
+  width: 100%;
+  margin-top: 5px;
+  font-size: 12px;
+}
+
+.registry-edit label:nth-of-type(4) {
+  grid-column: 1/-1;
+}
+
+.registry-edit-actions {
+  grid-column: 1/-1;
+  display: flex;
+  gap: 8px;
+}
+
+.registry-history {
+  margin-top: 14px;
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+}
+
+.registry-history-row {
+  font-size: 10px;
+  color: var(--muted);
+  background: #11171e;
+  padding: 10px;
+  border-radius: 7px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-height: 240px;
+  overflow: auto;
+}
+
+@media (max-width:760px) {
+  .registry-toolbar {
+    display: block;
+  }
+
+  .registry-toolbar .btn {
+    margin-top: 14px;
+  }
+
+  .registry-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .registry-edit {
+    grid-template-columns: 1fr;
+  }
+
+  .registry-edit label:nth-of-type(4),.registry-edit-actions {
+    grid-column: auto;
+  }
+}

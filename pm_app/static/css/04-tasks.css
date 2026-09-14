@@ -1,0 +1,391 @@
+/* Task tracker, Kanban and post-meeting UI. */
+.tabs {
+  flex-wrap: wrap;
+  row-gap: 0;
+}
+
+.pm-mode .admin-only {
+  display: none !important;
+}
+
+.task-toolbar,.postmeeting-toolbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 28px;
+}
+
+.task-toolbar>div,.postmeeting-toolbar>div:first-child {
+  max-width: 720px;
+}
+
+.task-summary {
+  display: grid;
+  grid-template-columns: repeat(4,minmax(0,1fr));
+  gap: 10px;
+  margin: 0 0 16px;
+}
+
+.task-stat {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 15px 17px;
+}
+
+.task-stat strong {
+  display: block;
+  font-size: 22px;
+  line-height: 1.1;
+}
+
+.task-stat span {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 6px;
+}
+
+.kanban-board {
+  display: grid;
+  grid-template-columns: repeat(4,minmax(220px,1fr));
+  gap: 12px;
+  align-items: start;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+
+.kanban-column {
+  min-width: 220px;
+  background: #141920;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.kanban-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.kanban-head h3 {
+  font-size: 13px;
+  margin: 0;
+}
+
+.kanban-count {
+  display: grid;
+  place-items: center;
+  min-width: 25px;
+  height: 25px;
+  border-radius: 999px;
+  background: #27313a;
+  color: #cbd6df;
+  font-size: 10px;
+}
+
+.kanban-cards {
+  min-height: 120px;
+  border-radius: 9px;
+  transition: background .15s,border-color .15s;
+}
+
+.kanban-cards.drag-over {
+  background: #1b2926;
+  box-shadow: inset 0 0 0 1px #4d6e63;
+}
+
+.kanban-card {
+  background: #1c222a;
+  border: 1px solid #303947;
+  border-radius: 9px;
+  padding: 12px;
+  margin-bottom: 9px;
+  cursor: grab;
+}
+
+.kanban-card:active {
+  cursor: grabbing;
+}
+
+.kanban-card h4 {
+  font-size: 13px;
+  margin: 9px 0 5px;
+}
+
+.kanban-statement {
+  font-size: 11px;
+  color: #c8d0dc;
+  line-height: 1.45;
+  margin: 0 0 10px;
+  white-space: pre-wrap;
+}
+
+.kanban-badges {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.kanban-meta {
+  display: grid;
+  gap: 3px;
+  margin: 7px 0 9px;
+}
+
+.kanban-meta span {
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.kanban-move {
+  width: 100%;
+  padding: 7px 9px;
+  font-size: 10px;
+}
+
+.kanban-empty {
+  font-size: 11px;
+  color: #6f7c8e;
+  text-align: center;
+  padding: 30px 6px;
+  margin: 0;
+}
+
+.kanban-wide {
+  grid-column: 1/-1;
+  margin: 0 0 10px;
+}
+
+.meeting-actions {
+  min-width: 310px;
+  display: grid;
+  gap: 9px;
+}
+
+.meeting-actions label {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.meeting-actions select {
+  width: 100%;
+  font-size: 12px;
+}
+
+.postmeeting-result {
+  max-width: 840px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.postmeeting-intro {
+  font-size: 15px;
+  margin: 0 0 24px;
+}
+
+.postmeeting-section {
+  padding: 0 0 15px;
+  margin: 0 0 15px;
+  border-bottom: 1px solid var(--line);
+}
+
+.postmeeting-section:last-of-type {
+  border-bottom: 0;
+}
+
+.postmeeting-section h3 {
+  font-size: 14px;
+  margin: 0 0 8px;
+}
+
+.postmeeting-section ul {
+  margin: 0;
+  padding-left: 22px;
+}
+
+.postmeeting-section li {
+  margin: 5px 0;
+  line-height: 1.5;
+}
+
+.postmeeting-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 18px;
+}
+
+@media (max-width:1050px) {
+  .kanban-board {
+    grid-template-columns: repeat(2,minmax(240px,1fr));
+  }
+
+  .task-summary {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+  }
+}
+
+@media (max-width:760px) {
+  .task-toolbar,.postmeeting-toolbar {
+    display: block;
+  }
+
+  .task-toolbar .btn,.meeting-actions {
+    margin-top: 14px;
+  }
+
+  .meeting-actions {
+    min-width: 0;
+  }
+
+  .kanban-board {
+    grid-template-columns: 1fr;
+  }
+
+  .task-summary {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.participants-panel {
+  margin-bottom: 24px;
+}
+
+.participants-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.participants-head>div {
+  max-width: 720px;
+}
+
+.participants-summary {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 14px 0;
+}
+
+.participants-summary span {
+  font-size: 10px;
+  color: var(--muted);
+  background: #141a21;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 5px 9px;
+}
+
+.participants-list {
+  display: grid;
+  gap: 8px;
+}
+
+.participant-row {
+  display: grid;
+  grid-template-columns: minmax(180px,1fr) auto minmax(250px,auto);
+  gap: 12px;
+  align-items: center;
+  padding: 11px 12px;
+  background: #171d24;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+}
+
+.participant-identity strong,.participant-identity small {
+  display: block;
+}
+
+.participant-identity strong {
+  font-size: 13px;
+}
+
+.participant-identity small {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.participant-status {
+  font-size: 10px;
+  border-radius: 999px;
+  padding: 5px 8px;
+  white-space: nowrap;
+}
+
+.participant-status.confirmed {
+  background: #23372f;
+  color: #bfe4d7;
+}
+
+.participant-status.suggested {
+  background: #3a3121;
+  color: #e5cca0;
+}
+
+.participant-status.unknown {
+  background: #262d37;
+  color: #9da8b7;
+}
+
+.participant-controls {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+}
+
+.participant-side {
+  min-width: 155px;
+  padding: 7px 9px;
+  font-size: 10px;
+}
+
+.message-speaker {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.participant-inline-role {
+  font-size: 9px;
+  border-radius: 999px;
+  padding: 2px 6px;
+  border: 1px solid #44515e;
+  color: #aeb9c7;
+}
+
+.participant-inline-role.confirmed {
+  border-color: #45685c;
+  color: #acd8c8;
+}
+
+.participant-inline-role.suggested {
+  border-color: #65583e;
+  color: #d7bf91;
+}
+
+@media (max-width:900px) {
+  .participant-row {
+    grid-template-columns: 1fr;
+  }
+
+  .participant-controls {
+    justify-content: flex-start;
+  }
+
+  .participants-head {
+    display: block;
+  }
+
+  .participants-head .btn {
+    margin-top: 12px;
+  }
+}

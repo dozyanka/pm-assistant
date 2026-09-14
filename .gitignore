@@ -1,0 +1,65 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+.build-venv/
+venv/
+
+# Runtime data / local state
+app_data/*
+!app_data/.gitignore
+*.sqlite
+*.sqlite3
+*.sqlite3-*
+*.db
+*.db-*
+
+# Local AI runtime and model weights
+models/
+.ollama/
+tools/ollama/
+
+# Build output
+build/
+dist/
+release/
+_internal/
+*.exe
+*.msi
+
+# Local config / credentials
+.env
+.env.*
+!.env.example
+remote_client.json
+remote_config.json
+*.pem
+*.key
+*.pfx
+*.p12
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+tmp/
+temp/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+# Case-provided evaluation fixtures are intentionally excluded from the public repository
+samples/
+docs/evaluation/

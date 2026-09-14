@@ -1,0 +1,40 @@
+/* Pipeline metadata is deliberately separate from project content. */
+.diagnostics {
+  margin-top: 18px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.diagnostics summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.diagnostic-json {
+  max-height: 360px;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+#import-full-demo {
+  margin-top: 9px;
+}
+
+.topic-result-title {
+  color: var(--accent);
+  margin: 28px 0 12px;
+}
+
+.topic-chip {
+  font-size: 11px;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.scope-bar {
+  flex-wrap: wrap;
+}
