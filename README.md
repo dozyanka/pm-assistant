@@ -1,4 +1,8 @@
 # PM Assistant
+[![Tests](https://github.com/dozyanka/pm-assistant/actions/workflows/tests.yml/badge.svg)](https://github.com/dozyanka/pm-assistant/actions/workflows/tests.yml)
+![Python](https://img.shields.io/badge/Python-3.13-blue)
+![Release](https://img.shields.io/github/v/release/dozyanka/pm-assistant)
+![License](https://img.shields.io/github/license/dozyanka/pm-assistant)
 
 **Self-hosted AI project-memory assistant for project managers.**
 
